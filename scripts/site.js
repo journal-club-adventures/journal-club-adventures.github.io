@@ -2155,190 +2155,174 @@ window.Modernizr = (function( window, document, undefined ) {
   var displayHomepage, loadAndDisplayGist, loadDisqus;
 
   loadDisqus = function() {
-    var dsq, wrapper;
-    window.disqus_url = "http://cmx.io/";
-    if (window.gistId) {
-      window.disqus_url += "gist/" + window.gistId;
-    }
-    wrapper = $("<div/>").attr('id', "disqus_thread");
-    if (window.gistId) {
-      $('#comix').append(wrapper);
-    } else {
-      $('.discussion').prepend(wrapper);
-    }
-    dsq = document.createElement("script");
-    dsq.type = "text/javascript";
-    dsq.async = true;
-    dsq.src = "http://cmxio.disqus.com/embed.js";
-    return (document.getElementsByTagName("head")[0] || document.getElementsByTagName("body")[0]).appendChild(dsq);
   };
 
   displayHomepage = function() {
     $('html').addClass('force-vscrollbar');
     $("#homepage").css("display", "block");
-    _gaq.push(['_trackPageview']);
     return loadDisqus();
   };
 
-  loadAndDisplayGist = function(gistId) {
-    var fail, spinner, spinnerOpts, src;
-    $("#comix-spinner").show();
-    document.title = "Comix #" + gistId;
-    spinnerOpts = {
-      lines: 10,
-      length: 5,
-      width: 3,
-      radius: 4,
-      corners: 1,
-      rotate: 15,
-      color: '#666',
-      speed: 1,
-      trail: 72,
-      shadow: false,
-      hwaccel: false,
-      className: 'spinner',
-      zIndex: 2e9,
-      top: 'auto',
-      left: 'auto'
-    };
-    spinner = new Spinner(spinnerOpts).spin();
-    $("#comix-spinner").append(spinner.el);
-    window.gistId = gistId;
-    src = "https://api.github.com/gists/" + gistId;
-    if (gistId === "test") {
-      src = "gist-test.html";
-    }
-    fail = function(event, xhr) {
-      spinner.stop();
-      $("#comix").css("display", "none");
-      $("#error").css("display", "block");
-      $("#error-response").text(xhr != null ? xhr.responseText : void 0);
-      $("#error-gist-number").text("#" + gistId);
-      $("#error-gist-link").attr("href", src).text(src);
-      $("#error-gist-index-link").attr("href", "https://gist.github.com/" + gistId);
-      _gaq.push(['_trackPageview', '/error/' + gistId]);
-      return console.log("failed to fetch the gist content");
-    };
-    $(document).ajaxError(fail);
-    console.log("fetching " + src + "...");
-    return $.get(src, function(content) {
-      var $banner, $comix, $placeholder, $stage, author, authorUrl, comix, d, date, description, doc, footer, header, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6;
-      console.log("received", content);
-      description = "A Comix";
-      if (gistId === "test") {
-        header = "some custom header";
-        comix = content;
-        footer = "some custom footer";
-        description = "Hello world! TEST\nsecond line";
-        author = "Antonin Hildebrand";
-        authorUrl = "https://gist.github.com/4770953";
-        date = "Jan 16, 2013";
-      } else {
-        if (typeof content === "string") {
-          try {
-            content = JSON.parse(content);
-          } catch (e) {
-            return fail();
-          }
-        }
-        header = (_ref = content.files) != null ? (_ref1 = _ref["header.html"]) != null ? _ref1.content : void 0 : void 0;
-        comix = (_ref2 = content.files) != null ? (_ref3 = _ref2["index.html"]) != null ? _ref3.content : void 0 : void 0;
-        if (!comix) {
-          fail(null, {
-            responseText: "index.html file not found"
-          });
-          return;
-        }
-        footer = (_ref4 = content.files) != null ? (_ref5 = _ref4["footer.html"]) != null ? _ref5.content : void 0 : void 0;
-        if (content.description) {
-          description = content.description;
-        }
-        author = ((_ref6 = content.user) != null ? _ref6.login : void 0) || "anonymous";
-        authorUrl = content.html_url;
-        d = new Date(content.created_at);
-        date = d.format("mmm d, yyyy");
-      }
-      description = description.split("\n")[0];
-      window.disqus_title = description || ("Comix #" + gistId);
-      $stage = $("<iframe/>", {
-        "class": "stage",
-        scrolling: "no",
-        frameborder: 0,
-        allowTransparency: "true"
-      });
-      $comix = $("#comix");
-      $placeholder = $("#comix-placeholder");
-      if (header) {
-        $placeholder.append(header);
-      }
-      $placeholder.append($stage);
-      if (footer) {
-        $placeholder.append(footer);
-      }
-      $banner = $("#comix-banner");
-      if (description) {
-        $banner.find(".comix-title").append(description);
-      }
-      if (author != null) {
-        $banner.find(".comix-author").append("by <a href=\"" + authorUrl + "\">" + author + "</a>");
-      }
-      if (date != null) {
-        $banner.find(".comix-date").append("on " + date);
-      }
-      window.messageFromCMX = function(event, cmx) {
-        var h, lH, lW, midW, rH, rW;
-        switch (event) {
-          case 'cmx:ready':
-            window.cmxref = cmx;
-            $comix.animate({
-              opacity: 1
-            });
-            spinner.stop();
-            lW = 0;
-            lH = void 0;
-            rW = 10000;
-            $stage.css({
-              width: "" + rW + "px"
-            });
-            rH = $stage.contents().height();
-            while (rW - lW > 2 && rW > 600) {
-              midW = Math.floor((lW + rW) / 2);
-              $stage.css({
-                width: "" + midW + "px"
-              });
-              h = $stage.contents().height();
-              if (rH === h) {
-                rW = midW;
-              } else {
-                lW = midW;
-                lH = h;
-              }
-            }
-            console.log("flex width detected w=" + rW + " h=" + rH);
-            $stage.css({
-              height: "" + rH + "px",
-              width: "" + rW + "px"
-            });
-            $comix.css({
-              width: "" + rW + "px"
-            });
-            $placeholder.css({
-              width: "" + rW + "px"
-            });
-            return loadDisqus();
-        }
-      };
-      $comix.css({
-        opacity: 0,
-        display: "block"
-      });
-      doc = $stage.contents().get(0);
-      doc.open();
-      doc.write(comix);
-      doc.close();
-      return _gaq.push(['_trackPageview', '/gist/' + gistId]);
-    });
+//github api instead of gist
+
+loadAndDisplayGist = function(gistId) {
+  var fail, spinner, spinnerOpts, src;
+  $("#comix-spinner").show();
+  document.title = "#" + gistId;
+  spinnerOpts = {
+    lines: 10,
+    length: 5,
+    width: 3,
+    radius: 4,
+    corners: 1,
+    rotate: 15,
+    color: '#666',
+    speed: 1,
+    trail: 72,
+    shadow: false,
+    hwaccel: false,
+    className: 'spinner',
+    zIndex: 2e9,
+    top: 'auto',
+    left: 'auto'
   };
+  spinner = new Spinner(spinnerOpts).spin();
+  $("#comix-spinner").append(spinner.el);
+  window.gistId = gistId;
+  //src = "https://api.github.com/repo/lonsbio/swc-wordclouds/" + gistId;
+  //src = "https://api.github.com/repos/lonsbio/journal-club-adventures/" + gistId;
+  src = "https://api.github.com/repos/lonsbio/journal-club-adventures/contents/src/" + gistId + ".html";
+  fail = function(event, xhr) {
+    spinner.stop();
+    $("#comix").css("display", "none");
+    $("#error").css("display", "block");
+//    $("#error-response").text(xhr != null ? xhr.responseText : void 0);
+//    $("#error-gist-number").text("#" + gistId);
+//    $("#error-gist-link").attr("href", src).text(src);
+//    $("#error-gist-index-link").attr("href", "https://gist.github.com/" + gistId);
+
+    return console.log("failed to fetch the gist content");
+  };
+  $(document).ajaxError(fail);
+  console.log("fetching " + src + "...");
+  return $.get(src, function(content) {
+    var $banner, $comix, $placeholder, $stage, author, authorUrl, comix, d, date, description, doc, footer, header, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6;
+    console.log("received", content);
+    description = "A Comix";
+    if (gistId === "test") {
+      header = "some custom header";
+      comix = content;
+      footer = "some custom footer";
+      description = "Hello world! TEST\nsecond line";
+      author = "Antonin Hildebrand";
+      authorUrl = "https://gist.github.com/4770953";
+      date = "Jan 16, 2013";
+    } else {
+      console.log("in the else branch!");
+
+      //header = "some custom header";
+      description = "This is adventure #" + gistId;
+      //authorUrl = "http://journal-club-adventures.github.io";
+      //date = "Jan 26, 2016";
+      // author, title etc taken from the commit
+
+      footer = '<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. <br/> <br/>Built with <a href="http://cmx.io">Comix I/O</a>.';
+
+
+      comix = atob(content.content)
+
+
+    }
+    $stage = $("<iframe/>", {
+      "class": "stage",
+      scrolling: "no",
+      frameborder: 0,
+      allowTransparency: "true"
+    });
+    $comix = $("#comix");
+    $placeholder = $("#comix-placeholder");
+
+    $placeholder.append($stage);
+
+
+    if (header) {
+      $placeholder.append(header);
+    }
+    $placeholder.append($stage);
+    if (footer) {
+      $placeholder.append(footer);
+    }
+    $banner = $("#comix-banner");
+    if (description) {
+      $banner.find(".comix-title").append(description);
+    }
+    if (author != null) {
+      $banner.find(".comix-author").append("by <a href=\"" + authorUrl + "\">" + author + "</a>");
+    }
+    if (date != null) {
+      $banner.find(".comix-date").append("on " + date);
+    }
+
+    window.messageFromCMX = function(event, cmx) {
+      var h, lH, lW, midW, rH, rW;
+      switch (event) {
+        case 'cmx:ready':
+          window.cmxref = cmx;
+          $comix.animate({
+            opacity: 1
+          });
+          spinner.stop();
+          lW = 0;
+          lH = void 0;
+          rW = 10000;
+          $stage.css({
+            width: "" + rW + "px"
+          });
+          rH = $stage.contents().height();
+          while (rW - lW > 2 && rW > 600) {
+            midW = Math.floor((lW + rW) / 2);
+            $stage.css({
+              width: "" + midW + "px"
+            });
+            h = $stage.contents().height();
+            if (rH === h) {
+              rW = midW;
+            } else {
+              lW = midW;
+              lH = h;
+            }
+          }
+          console.log("flex width detected w=" + rW + " h=" + rH);
+          $stage.css({
+            height: "" + rH + "px",
+            width: "" + rW + "px"
+          });
+          $comix.css({
+            width: "" + rW + "px"
+          });
+          $placeholder.css({
+            width: "" + rW + "px"
+          });
+          return loadDisqus();
+      }
+    };
+    $comix.css({
+      opacity: 0,
+      display: "block"
+    });
+    doc = $stage.contents().get(0);
+    doc.open();
+    doc.write(comix);
+    doc.close();
+    return ;
+  });
+};
+
+
+
+
+
+//
 
   $(function() {
     var hash;

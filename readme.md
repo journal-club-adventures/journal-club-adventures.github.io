@@ -1,6 +1,11 @@
-# cmx.io
+# journal-club-adventures.github.io (from of cmx.io)
 
-This site provides you with tools to author [xkcd-style comixes](http://cmx.io).
+Fork of cmx.io, modified to show only comics taken from a single repository via the GitHub API. 
 
-TBD
 
+
+## Todo
+
+- [ ] Update cmx.js fork to use custom stick figures heads
+- [ ] Restore /edit functions
+- [ ] Allow forks of the comic repository to be selectable
