@@ -6038,12 +6038,7 @@ a.badge:hover {
   position: fixed;
 }
 
-@font-face {
-  font-family: 'xkcd';
-  font-style: normal;
-  font-weight: normal;
-  src: local('xkcd'),url('/fonts/humor-sans.ttf');
-}
+
 
 body {
   margin-top: 20px;
@@ -6060,6 +6055,7 @@ section {
 .container {
   width: 800px;
   position: relative;
+  text-decoration: none;
 }
 
 .chrome-experiment-badge {
@@ -6103,6 +6099,7 @@ section {
 
 .comix-title {
   font-size: 24px;
+  text-align: center;
 }
 
 .comix-author {
