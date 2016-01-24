@@ -2224,7 +2224,7 @@ loadAndDisplayGist = function(gistId) {
       gistIDLatest= 0;
 
       //header = "some custom header";
-      description = "Journal Club Adventures: A stick-figure webcomic about science, academia and what happens when these things are discussed at 8am. This is adventure #" + gistId;
+      description = "<a href=\"http://journal-club-adventures.github.io/\">Journal Club Adventures</a>. This is adventure <a href=\"http://journal-club-adventures.github.io/#" + gistId +"\">#" + gistId+".</a>";
       //authorUrl = "http://journal-club-adventures.github.io";
       //date = "Jan 26, 2016";
       // author, title etc taken from the commit
