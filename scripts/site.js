@@ -2189,7 +2189,7 @@ loadAndDisplayGist = function(gistId) {
   spinner = new Spinner(spinnerOpts).spin();
   $("#comix-spinner").append(spinner.el);
   window.gistId = gistId;
-  src = "https://api.github.com/repos/lonsbio/journal-club-adventures/contents/src/" + gistId + ".html";
+  src = "https://api.github.com/repos/journal-club-adventures/journal-club-adventures/contents/src/" + gistId + ".html";
   fail = function(event, xhr) {
     spinner.stop();
     $("#comix").css("display", "none");
@@ -2222,12 +2222,14 @@ loadAndDisplayGist = function(gistId) {
       gistIDLatest= 0;
 
       //header = "some custom header";
+
+      // need to use src or a lookup for author, publication date maybe?
       author = "journal-club-adventures";
       authorUrl = "http://journal-club-adventures.github.io";
       //date = "Jan 26, 2016";
       // author, title etc taken from the commit
-      description = "<a href=\"http://journal-club-adventures.github.io/\">Journal Club Adventures</a>. This is adventure <a href=\"http://journal-club-adventures.github.io/#" + gistId +"\">#" + gistId+"</a> by <a href=\""+authorUrl+"\">"+author+"</a>.";
-      
+      description = "<a href=\"http://journal-club-adventures.github.io/\">Journal Club Adventures</a>: this is adventure <a href=\"http://journal-club-adventures.github.io/#" + gistId +"\">#" + gistId+"</a> by <a href=\""+authorUrl+"\">"+author+"</a>.";
+
       footer = '<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. <br/> <br/>Built with <a href="http://cmx.io">Comix I/O</a>.';
 
 
