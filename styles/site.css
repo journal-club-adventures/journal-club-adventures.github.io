@@ -6055,8 +6055,12 @@ section {
 .container {
   width: 800px;
   position: relative;
+}
+
+a.container {
   text-decoration: none;
 }
+
 
 .chrome-experiment-badge {
   zoom: 70%;
