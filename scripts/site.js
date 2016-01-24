@@ -2220,8 +2220,11 @@ loadAndDisplayGist = function(gistId) {
     } else {
       console.log("in the else branch!");
 
+      var gistIDLatest;
+      gistIDLatest= 0;
+
       //header = "some custom header";
-      description = "This is adventure #" + gistId;
+      description = "Journal Club Adventures: A stick-figure webcomic about science, academia and what happens when these things are discussed at 8am. This is adventure #" + gistId;
       //authorUrl = "http://journal-club-adventures.github.io";
       //date = "Jan 26, 2016";
       // author, title etc taken from the commit
