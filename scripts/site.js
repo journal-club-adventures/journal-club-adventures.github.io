@@ -2166,7 +2166,7 @@ window.Modernizr = (function( window, document, undefined ) {
 //github api instead of gist
 
 loadAndDisplayGist = function(gistId) {
-  var fail, spinner, spinnerOpts, src;
+  var fail, spinner, spinnerOpts, src, comic_info;
   $("#comix-spinner").show();
   document.title = "#" + gistId;
   spinnerOpts = {
@@ -2202,7 +2202,62 @@ loadAndDisplayGist = function(gistId) {
     return console.log("failed to fetch the gist content");
   };
   $(document).ajaxError(fail);
+
+
+
+
+  // TODO: lookup scheulde based on gistID
+  var schedule, scontent,   schedule_data;
+  schedule = `https://api.github.com/repos/journal-club-adventures/journal-club-adventures/contents/schedule.json`
+  console.log("fetching " + schedule + "...");
+
+  $.get(schedule, function(scontent,comic_info) {
+    console.log("received", scontent);
+
+    schedule_data = atob(scontent.content)
+    console.log("schdule is", schedule_data);
+  //  var json = {'0: {"title":"Origin Story","date": "26012016","author": "@lonsbio","authorUrl": "http://twitter.com/lonsbio"}'};
+
+/*  var data = { "0":
+                    { "title":"Origin Story",
+                      "date": "26012016",
+                      "author": "@lonsbio",
+                      "authorUrl": "http://twitter.com/lonsbio"
+                    },
+               };
+*/
+
+//  console.log("data", JSON.parse(schedule_data));
+
+var comic_info = JSON.parse(schedule_data)[gistId];
+var title = comic_info["title"]
+author = comic_info["author"];
+authorUrl = comic_info["authorUrl"];
+var date = comic_info["date"]
+description = "<a href=\"http://journal-club-adventures.github.io/\">Journal Club Adventures</a> <a href=\"http://journal-club-adventures.github.io/#" + gistId +"\">#" + gistId+"</a>: \""+title+"\"";
+
+var $cbanner = $("#comix-banner");
+
+if (author != null) {
+  $cbanner.find(".comix-author").append("by <a href=\"" + authorUrl + "\">" + author + "</a>");
+}
+if (date != null) {
+  $cbanner.find(".comix-date").append("on " + date);
+}
+
+$banner = $("#comix-banner");
+if (description) {
+  $banner.find(".comix-title").append(description);
+}
+
+
+
+console.log("data", comic_info["title"]);
+
+  });
+
   console.log("fetching " + src + "...");
+
   return $.get(src, function(content) {
     var $banner, $comix, $placeholder, $stage, author, authorUrl, comix, d, date, description, doc, footer, header, _ref, _ref1, _ref2, _ref3, _ref4, _ref5, _ref6;
     console.log("received", content);
@@ -2224,11 +2279,13 @@ loadAndDisplayGist = function(gistId) {
       //header = "some custom header";
 
       // need to use src or a lookup for author, publication date maybe?
-      author = "journal-club-adventures";
-      authorUrl = "http://journal-club-adventures.github.io";
+      //author = "journal-club-adventures";
+      //authorUrl = "http://journal-club-adventures.github.io";
+
+
       //date = "Jan 26, 2016";
       // author, title etc taken from the commit
-      description = "<a href=\"http://journal-club-adventures.github.io/\">Journal Club Adventures</a>: this is adventure <a href=\"http://journal-club-adventures.github.io/#" + gistId +"\">#" + gistId+"</a> by <a href=\""+authorUrl+"\">"+author+"</a>.";
+//      description = "<a href=\"http://journal-club-adventures.github.io/\">Journal Club Adventures</a>: this is adventure <a href=\"http://journal-club-adventures.github.io/#" + gistId +"\">#" + gistId+"</a> by <a href=\""+authorUrl+"\">"+author+"</a>.";
 
       footer = '<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a> This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>. <br/> <br/>Built with <a href="http://cmx.io">Comix I/O</a>.';
 
@@ -2256,16 +2313,7 @@ loadAndDisplayGist = function(gistId) {
     if (footer) {
       $placeholder.append(footer);
     }
-    $banner = $("#comix-banner");
-    if (description) {
-      $banner.find(".comix-title").append(description);
-    }
-    if (author != null) {
-      $banner.find(".comix-author").append("by <a href=\"" + authorUrl + "\">" + author + "</a>");
-    }
-    if (date != null) {
-      $banner.find(".comix-date").append("on " + date);
-    }
+
 
     window.messageFromCMX = function(event, cmx) {
       var h, lH, lW, midW, rH, rW;
