@@ -4,6 +4,7 @@ Fork of cmx.io, modified to show only comics taken from a single repository via 
 
 
 ## Todo
+- [ ] Static image versions of comics?
 - [x] Author info included in header
 - [ ] Policy for contributions
 - [ ] Auto-update latest comic link on home page
