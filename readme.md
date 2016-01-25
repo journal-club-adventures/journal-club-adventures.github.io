@@ -4,7 +4,10 @@ Fork of cmx.io, modified to show only comics taken from a single repository via 
 
 
 ## Todo
-- [x] Elegant author info included in header
+- [x] Author info included in header
+- [ ] Policy for contributions
+- [ ] Auto-update latest comic link on home page
+- [ ] Add navigation links
 - [ ] Update cmx.js fork to use custom stick figures heads
 - [ ] Restore /edit functions
 - [ ] Fix WebKit title box length issue
