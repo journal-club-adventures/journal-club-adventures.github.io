@@ -3,9 +3,8 @@
 Fork of cmx.io, modified to show only comics taken from a single repository via the GitHub API. 
 
 
-
 ## Todo
-- [ ] Elegant author info inlcuded in header
+- [x] Elegant author info included in header
 - [ ] Update cmx.js fork to use custom stick figures heads
 - [ ] Restore /edit functions
-- [ ] Allow forks of the comic repository to be selectable
+- [ ] Fix WebKit title box length issue
