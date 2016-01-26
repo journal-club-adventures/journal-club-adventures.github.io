@@ -2210,10 +2210,10 @@ loadAndDisplayGist = function(gistId) {
   console.log("fetching " + schedule + "...");
 
   $.get(schedule, function(scontent,comic_info) {
-    console.log("received", scontent);
+    //console.log("received", scontent);
 
     schedule_data = atob(scontent.content)
-    console.log("schdule is", schedule_data);
+    //console.log("schdule is", schedule_data);
   //  var json = {'0: {"title":"Origin Story","date": "26012016","author": "@lonsbio","authorUrl": "http://twitter.com/lonsbio"}'};
 
 /*  var data = { "0":
@@ -2253,7 +2253,7 @@ var next, prev, curr;
 curr = +gistId;
 next = curr+1;
 prev = curr-1;
-console.log("nav is", next);
+//console.log("nav is", next);
 
 
 // nav get max
@@ -2261,10 +2261,10 @@ var index_keys = Object.keys(JSON.parse(schedule_data)).map(Number);
 var last = Math.max.apply(Math, index_keys);
 var first = Math.min.apply(Math, index_keys);
 
-console.log("keys are", index_keys);
-console.log("first is", first);
-console.log("last is", last);
-console.log("last key is", Math.max(index_keys));
+//console.log("keys are", index_keys);
+//console.log("first is", first);
+//console.log("last is", last);
+//console.log("last key is", Math.max(index_keys));
 
 if (first < curr) {
 $cbanner.find(".comix-nav-prev").append(
@@ -2281,7 +2281,7 @@ $cbanner.find(".comix-nav-next").append(
 
 
 
-console.log("data", comic_info["title"]);
+//console.log("data", comic_info["title"]);
 
   });
 
@@ -2300,7 +2300,7 @@ console.log("data", comic_info["title"]);
       authorUrl = "https://gist.github.com/4770953";
       date = "Jan 16, 2013";
     } else {
-      console.log("in the else branch!");
+      //console.log("in the else branch!");
 
       var gistIDLatest;
       gistIDLatest= 0;
