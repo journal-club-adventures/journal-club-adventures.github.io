@@ -2167,6 +2167,7 @@ window.Modernizr = (function( window, document, undefined ) {
 
 loadAndDisplayGist = function(gistId) {
   var fail, spinner, spinnerOpts, src, comic_info;
+  $("#comix-spinner-img").show();
   $("#comix-spinner").show();
   document.title = "#" + gistId;
   spinnerOpts = {
@@ -2192,6 +2193,7 @@ loadAndDisplayGist = function(gistId) {
   src = "https://api.github.com/repos/journal-club-adventures/journal-club-adventures/contents/src/" + gistId + ".html";
   fail = function(event, xhr) {
     spinner.stop();
+    $("#comix-spinner-img").css("display", "none");
     $("#comix").css("display", "none");
     $("#error").css("display", "block");
 //    $("#error-response").text(xhr != null ? xhr.responseText : void 0);
@@ -2202,10 +2204,6 @@ loadAndDisplayGist = function(gistId) {
     return console.log("failed to fetch the gist content");
   };
   $(document).ajaxError(fail);
-
-
-
-
   // TODO: lookup scheulde based on gistID
   var schedule, scontent,   schedule_data;
   schedule = `https://api.github.com/repos/journal-club-adventures/journal-club-adventures/contents/schedule.json`
@@ -2249,6 +2247,37 @@ $banner = $("#comix-banner");
 if (description) {
   $banner.find(".comix-title").append(description);
 }
+
+// navigation - simple
+var next, prev, curr;
+curr = +gistId;
+next = curr+1;
+prev = curr-1;
+console.log("nav is", next);
+
+
+// nav get max
+var index_keys = Object.keys(JSON.parse(schedule_data)).map(Number);
+var last = Math.max.apply(Math, index_keys);
+var first = Math.min.apply(Math, index_keys);
+
+console.log("keys are", index_keys);
+console.log("first is", first);
+console.log("last is", last);
+console.log("last key is", Math.max(index_keys));
+
+if (first < curr) {
+$cbanner.find(".comix-nav-prev").append(
+"<a href=\"https://journal-club-adventures.github.io/#" + prev +"\"> <- prev </a>");
+}
+
+if (last > curr) {
+$cbanner.find(".comix-nav-next").append(
+"<a href=\"https://journal-club-adventures.github.io/#" + next + "\"> next -> </a>"
+);
+
+}
+
 
 
 
@@ -2324,6 +2353,7 @@ console.log("data", comic_info["title"]);
             opacity: 1
           });
           spinner.stop();
+          $("#comix-spinner-img").css("display", "none");
           lW = 0;
           lH = void 0;
           rW = 10000;

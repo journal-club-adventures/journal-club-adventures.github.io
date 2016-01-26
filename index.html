@@ -27,7 +27,7 @@
   A stick-figure webcomic about science, academia and what happens when  <br/>these things are discussed at 8am. The lastest adventure is <a href="https://journal-club-adventures.github.io/#0">#0</a>.
           </p>
           <p>
-            <a href="https://twitter.com/JrnlClbAdvntr" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">Follow @JrnlClbAdvntr</a>
+            <a href="https://twitter.com/JournalClubAdv" class="twitter-follow-button" data-show-count="false" data-size="large" data-show-screen-name="false" data-dnt="true">Follow @JournalClubAdv</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 <iframe src="https://ghbtns.com/github-btn.html?user=journal-club-adventures&repo=journal-club-adventures&type=fork&count=true&size=large" frameborder="0" scrolling="0" width="158px" height="30px"></iframe>
 </p>
@@ -47,14 +47,21 @@ Best viewed in Google Chrome or Firefox.
 
     </div>
     <div id="comix-spinner" style="display:none">
+
     </div>
+    <div id="comix-spinner-img" style="display:none">
+      <img class="splash-image" title="Waiting!!!!!" src="img/waiting.png">
+
+    </div>
+
     <div id="comix" style="display:none">
       <div id="comix-placeholder">
         <div id="comix-banner">
 
               <span class="comix-title"></span>
               <span class="comix-author"></span><span class="comix-date"></span>
-
+              <span class="comix-nav-prev"></span>
+              <span class="comix-nav-next"></span>
 
     <!--span class="comix-author"></span--><!--span class="comix-date"></span-->
 
@@ -72,9 +79,14 @@ Best viewed in Google Chrome or Firefox.
 
       <div class="splash-box">
 
-      <h2>That adventure hasn't been written yet!<span id="error-gist-number"></span></h2>
-      <pre id="error-response"></pre>
-      <p>Check the schedule to see the latest comic</p>
+      <h3>That adventure hasn't been written yet!<span id="error-gist-number"></span></h3>
+      <p>
+        Since <a href="http://journal-club-adventures.github.io">Journal Club Adventures</a> uses a collaborative approach, invited authors can submit comics to our team via <a href="https://github.com/journal-club-adventures/journal-club-adventures">GitHub.</a>
+      </p>
+      <img class="splash-image-small" title="Comic not found!" src="img/missing.png">
+
+      <pre id="error-response">
+</pre>
 
     </div>
   </div>
